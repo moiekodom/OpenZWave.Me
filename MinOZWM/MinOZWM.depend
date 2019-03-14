@@ -1,0 +1,68 @@
+# depslib dependency file v1.0
+1552251562 source:/home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/MinOZWM/main.cpp
+	<ZWayLib.h>
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZWayLib.h
+	"ZErrors.h"
+	"ZLog.h"
+	"ZDefsPublic.h"
+	"FunctionClassesPublic.h"
+	"CommandClassesPublic.h"
+	"ZDataExt.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZErrors.h
+	"ZPlatform.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZPlatform.h
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<math.h>
+	<sal.h>
+	<WinSock2.h>
+	<Windows.h>
+	<shlwapi.h>
+	<io.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<fcntl.h>
+	<stdint.h>
+	<time.h>
+	<tchar.h>
+	<sys/io.h>
+	<fcntl.h>
+	<sys/socket.h>
+	<netdb.h>
+	<unistd.h>
+	<pthread.h>
+	<sys/errno.h>
+	<sys/stat.h>
+	<sys/time.h>
+	<termios.h>
+	<memory.h>
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZLog.h
+	"ZPlatform.h"
+	"ZErrors.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDefsPublic.h
+	"ZPlatform.h"
+	"ZData.h"
+	"ZMalloc.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZData.h
+	"ZPlatform.h"
+	"ZErrors.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZMalloc.h
+	<stdio.h>
+	"ZPlatform.h"
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/FunctionClassesPublic.h
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/CommandClassesPublic.h
+
+1544701658 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDataExt.h
+	"ZPlatform.h"
+	"ZWayLib.h"
+
