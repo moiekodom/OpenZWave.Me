@@ -10,17 +10,25 @@ namespace OpenZWaveMe
 
     Manager::~Manager()
     {
+        for_each(m_pendingDrivers.begin(), m_pendingDrivers.end(), [](Driver* _driver) {delete _driver;});
+
+        for_each(m_readyDrivers.begin(), m_readyDrivers.end(), [](pair<uint32, Driver*> _keyValue) {delete _keyValue.second;});
     }
     //----------------------------------------------------------------------------------------------------
 
-    Manager* Manager::Create()
+    Manager const* Manager::Create()
     {
-        if (NULL == s_instance)
+        if (Options::Get() && Options::Get()->AreLocked())
         {
-            s_instance = new Manager();
+            if (NULL == s_instance)
+            {
+                s_instance = new Manager();
+            }
+
+            return s_instance;
         }
 
-        return s_instance;
+        //OZW_FATAL_ERROR();
 
         return NULL;
     }
@@ -34,18 +42,47 @@ namespace OpenZWaveMe
     }
     //----------------------------------------------------------------------------------------------------
 
-    bool Manager::AddDriver(string const& _controllerPath, ControllerInterface const& _interface)
+    void Manager::SetDriverReady(Driver* _driver, bool _success)
     {
-        for (list<Driver*>::iterator pit = m_pendingDrivers.begin(); pit != m_pendingDrivers.end(); ++pit)
-        {
-            if (_controllerPath == (*pit)->GetControllerPath())
-            {
-                Log::Write(OpenZWave::LogLevel_Info, "mgr,     Cannot add driver for controller %s - driver already exists", _controllerPath.c_str());
+    }
+    //----------------------------------------------------------------------------------------------------
 
-                return FALSE;
-            }
+    bool Manager::AddDriver(string const& _controllerPath, Driver::ControllerInterface _interface)
+    {
+        if (any_of(m_pendingDrivers.begin(), m_pendingDrivers.end(), [&](Driver* _driver) {return _driver->GetControllerPath() == _controllerPath;}))
+        {
+            Log::Write(OpenZWave::LogLevel_Info, "mgr,     Cannot add driver for controller %s - driver already exists", _controllerPath.c_str());
+
+            return FALSE;
         }
 
+        if (any_of(m_readyDrivers.begin(), m_readyDrivers.end(), [&](pair<uint32, Driver*> _keyValue) {return _keyValue.second->GetControllerPath() == _controllerPath;}))
+        {
+            Log::Write(OpenZWave::LogLevel_Info, "mgr,     Cannot add driver for controller %s - driver already exists", _controllerPath.c_str());
+
+            return FALSE;
+        }
+
+        Driver* driver = new Driver(_controllerPath, _interface);
+
+        m_pendingDrivers.push_back(driver);
+
+        driver->Start();
+
+        Log::Write(OpenZWave::LogLevel_Info, "mgr,     Added driver for controller %s", _controllerPath.c_str());
+
+        return TRUE;
+    }
+    //----------------------------------------------------------------------------------------------------
+
+    bool Manager::RemoveDriver(string const& _controllerPath)
+    {
+        return TRUE;
+    }
+    //----------------------------------------------------------------------------------------------------
+
+    bool Manager::AddWatcher(pfnOnNotification_t _watcher, void* _context)
+    {
         return TRUE;
     }
     //----------------------------------------------------------------------------------------------------

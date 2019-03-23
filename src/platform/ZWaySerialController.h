@@ -3,11 +3,11 @@
 
 #include <ZWayLib.h>
 
-#include <platform/Controller.h>
-
 #include "../Defs.h"
 
-using OpenZWave::Controller;
+#include "Controller.h"
+
+using OpenZWaveMe::Controller;
 
 namespace OpenZWaveMe
 {

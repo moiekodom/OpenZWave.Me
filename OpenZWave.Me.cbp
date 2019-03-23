@@ -5,7 +5,7 @@
 		<Option title="OpenZWave.Me" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Main/;Platform/;" />
+		<Option virtualFolders="Main/;Platform/;Value Classes/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/OpenZWave" prefix_auto="1" extension_auto="1" />
@@ -14,7 +14,9 @@
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-D__DEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -63,11 +65,32 @@
 		<Unit filename="src/Manager.h">
 			<Option virtualFolder="Main/" />
 		</Unit>
+		<Unit filename="src/Notification.cpp">
+			<Option virtualFolder="Main/" />
+		</Unit>
+		<Unit filename="src/Notification.h">
+			<Option virtualFolder="Main/" />
+		</Unit>
+		<Unit filename="src/OZWException.cpp">
+			<Option virtualFolder="Main/" />
+		</Unit>
+		<Unit filename="src/OZWException.h">
+			<Option virtualFolder="Main/" />
+		</Unit>
+		<Unit filename="src/platform/Controller.cpp">
+			<Option virtualFolder="Platform/" />
+		</Unit>
+		<Unit filename="src/platform/Controller.h">
+			<Option virtualFolder="Platform/" />
+		</Unit>
 		<Unit filename="src/platform/ZWaySerialController.cpp">
 			<Option virtualFolder="Platform/" />
 		</Unit>
 		<Unit filename="src/platform/ZWaySerialController.h">
 			<Option virtualFolder="Platform/" />
+		</Unit>
+		<Unit filename="src/value_classes/ValueID.h">
+			<Option virtualFolder="Value Classes/" />
 		</Unit>
 		<Extensions>
 			<code_completion />
