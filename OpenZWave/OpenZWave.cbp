@@ -5,13 +5,13 @@
 		<Option title="OpenZWave" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
-		<Option virtualFolders="Main/;AES/;Command Classes/;Platform/;Value Classes/;TinyXML/;" />
+		<Option virtualFolders="Main/;AES/;Command Classes/;Platform/;Value Classes/;TinyXML/;Platform/Unix/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/OpenZWave" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option working_dir="bin/Debug" />
 				<Option object_output="obj/Debug/" />
-				<Option type="2" />
+				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
@@ -36,6 +36,8 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-fPIC" />
+			<Add option="-DMINGW" />
 			<Add directory="src" />
 			<Add directory="../tinyxml" />
 		</Compiler>
@@ -562,6 +564,54 @@
 		<Unit filename="src/platform/Wait.h">
 			<Option virtualFolder="Platform/" />
 		</Unit>
+		<Unit filename="src/platform/unix/EventImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/EventImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/FileOpsImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/FileOpsImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/LogImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/LogImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/MutexImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/MutexImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/SerialControllerImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/SerialControllerImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/ThreadImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/ThreadImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/TimeStampImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/TimeStampImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/WaitImpl.cpp">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
+		<Unit filename="src/platform/unix/WaitImpl.h">
+			<Option virtualFolder="Platform/Unix/" />
+		</Unit>
 		<Unit filename="src/value_classes/Value.cpp">
 			<Option virtualFolder="Value Classes/" />
 		</Unit>
@@ -637,9 +687,11 @@
 		<Unit filename="src/value_classes/ValueString.h">
 			<Option virtualFolder="Value Classes/" />
 		</Unit>
+		<Unit filename="winversion.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
