@@ -1,4 +1,4 @@
-#include "OZWException.h"
+#include "Node.h"
 
 namespace OpenZWaveMe
 {

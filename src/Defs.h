@@ -15,6 +15,7 @@
 #include <exception>
 
 #include <string>
+#include <vector>
 #include <list>
 #include <map>
 
@@ -22,9 +23,13 @@
 #include <algorithm>
 
 #include <Defs.h>
+
 #include <OZWException.h>
 
 #include <platform/Log.h>
+
+#include <Options.h>
+#include <Utils.h>
 
 #undef OZW_FATAL_ERROR
 #undef OZW_ERROR
@@ -44,11 +49,14 @@
 #   define OZW_ERROR(exitCode, msg)			    Log::Write(OpenZWave::LogLevel_Warning,"Exception: %s:%d - %d - %s", std::string(__MYFUNCTION__).substr(std::string(__MYFUNCTION__).find_last_of("/\\") + 1).c_str(), __LINE__, exitCode, msg);
 #endif
 
+typedef uint32 __socklen_t;
+
 using std::exception;
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::string;
+using std::vector;
 using std::list;
 using std::map;
 using std::pair;
@@ -56,5 +64,6 @@ using std::any_of;
 using std::for_each;
 
 using OpenZWave::Log;
+using OpenZWave::Options;
 
 #endif // DEFS_H_INCLUDED

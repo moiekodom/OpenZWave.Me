@@ -1,9 +1,11 @@
-#ifndef SERIALCONTROLLER_H_INCLUDED
-#define SERIALCONTROLLER_H_INCLUDED
+#ifndef ZWAYSERIALCONTROLLER_H_INCLUDED
+#define ZWAYSERIALCONTROLLER_H_INCLUDED
 
-#include <ZWayLib.h>
-
+// Необходимо прежде включить typedef для __socklen_t, иначе при компиляции под Windows (MinGW) ошибка: "Тип не определён".
 #include "../Defs.h"
+
+// Здесь включается <bits/socket.h>, в котором есть "typedef __socklen_t socklen_t".
+#include <ZWayLib.h>
 
 #include "Controller.h"
 
@@ -27,4 +29,4 @@ namespace OpenZWaveMe
     };
 }
 
-#endif // SERIALCONTROLLER_H_INCLUDED
+#endif // ZWAYSERIALCONTROLLER_H_INCLUDED

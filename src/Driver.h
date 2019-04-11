@@ -7,8 +7,13 @@
 #include <platform/Thread.h>
 #include <platform/Wait.h>
 
+#include <aes/aescpp.h>
+
+#include <value_classes/Value.h>
+
+#include <command_classes/WakeUp.h>
+
 #include <Msg.h>
-#include <Node.h>
 #include <Driver.h>
 
 #include "Defs.h"
@@ -16,17 +21,21 @@
 #include "platform/ZWaySerialController.h"
 
 #include "Notification.h"
+#include "Node.h"
 
-using OpenZWave::Msg;
-using OpenZWave::Node;
 using OpenZWave::TimeStamp;
 using OpenZWave::Event;
 using OpenZWave::Mutex;
 using OpenZWave::Thread;
 using OpenZWave::Wait;
+using OpenZWave::Value;
+using OpenZWave::WakeUp;
+using OpenZWave::Msg;
+using OpenZWave::LockGuard;
 
 using OpenZWaveMe::Controller;
 using OpenZWaveMe::Notification;
+using OpenZWaveMe::Node;
 
 namespace OpenZWaveMe
 {
@@ -83,6 +92,12 @@ namespace OpenZWaveMe
                 uint8 					m_controllerDeviceProtocolInfoLength;
             };
 
+            struct PollEntry
+            {
+                ValueID	                m_id;
+                uint8	                m_pollCounter;
+            };
+
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
             class MsgQueueItem
@@ -124,30 +139,43 @@ namespace OpenZWaveMe
                         }
                     }
 
-                    return false;
+                    return FALSE;
                 }
             };
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            bool m_waitingForAck;
-            bool m_exit;
-            uint8 m_Controller_nodeId;
-            uint8 m_expectedCallbackId;
-            uint8 m_expectedReply;
-            uint32 m_homeId;
-            string m_controllerPath;
-            ControllerInterface m_controllerInterfaceType;
-            ControllerCommandItem* m_currentControllerCommand;
-            Controller* m_controller;
-            Event* m_notificationsEvent;
-            Event* m_queueEvent[OpenZWave::Driver::MsgQueue_Count];
-            Mutex* m_initMutex;
-            Thread* m_driverThread;
-            Thread* m_pollThread;
-            Msg* m_currentMsg;
+            bool					m_bIntervalBetweenPolls;					        // If true, the library intersperses m_pollInterval between polls; if false, the library attempts to complete all polls within m_pollInterval
+            bool                    m_waitingForAck;                                    // True when we are waiting for an ACK from the dongle
+            bool                    m_awakeNodesQueried;                                // Set to true once the driver has polled all awake nodes
+            bool					m_notifytransactions;
+            bool                    m_exit;                                             // Flag that is set when the application is exiting
+            bool                    m_inclusionkeySet;
+            uint8                   m_Controller_nodeId;                                // Z-Wave Controller's own node ID
+            uint8                   m_expectedCallbackId;                               // If non-zero, we wait for a message with this callback Id
+            uint8                   m_expectedReply;                                    // If non-zero, we wait for a message with this function Id
+            uint8		            m_virtualNeighbors[NUM_NODE_BITFIELD_BYTES];		// Bitmask containing virtual neighbors
+            uint32                  m_homeId;                                           // Home ID of the Z-Wave controller. Not valid until the DriverReady notification has been received.
+            int32                   m_pollInterval;                                     // Time interval during which all nodes must be polled
+            string                  m_controllerPath;                                   // Name or path used to open the controller hardware
+            ControllerInterface     m_controllerInterfaceType;                          // Specifies the controller's hardware interface
+            ControllerCommandItem*  m_currentControllerCommand;
+            Controller*             m_controller;                                       // Handles communications with the controller hardware
+            aes_encrypt_ctx*        m_authKey;
+            aes_encrypt_ctx*        m_encryptKey;
+            Mutex*                  m_initMutex;                                        // Mutex to ensure proper ordering of initialization/deinitialization
+            Mutex*                  m_pollMutex;                                        // Serialize access to the polling list
+            Mutex*                  m_nodeMutex;								        // Serializes access to node data
+            Thread*                 m_driverThread;                                     // Thread for reading from the Z-Wave controller, and for creating and managing the other threads for sending, polling etc.
+            Thread*                 m_pollThread;                                       // Thread for polling devices on the Z-Wave network
+            Event*                  m_notificationsEvent;
+            Event*                  m_queueEvent[OpenZWave::Driver::MsgQueue_Count];    // Events for each queue, which are signaled when the queue is not empty
+            Msg*                    m_currentMsg;
+            Node*                   m_nodes[256];                                       // Array containing all the node objects
 
-            list<Notification*> m_notifications;
+            list<Notification*>     m_notifications;
+            list<PollEntry>         m_pollList;
+            list<MsgQueueItem>		m_msgQueue[OpenZWave::Driver::MsgQueue_Count];      // List of nodes that need to be polled
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,21 +192,55 @@ namespace OpenZWaveMe
             void DriverThreadProc(Event* _exitEvent);
             void PollThreadProc(Event* _exitEvent);
             bool Init(uint32 _attempts);
+            bool InitNetworkKeys(bool _newnode);
             void Start();
             bool ReadMsg();
-            bool WriteMsg(string const& str);
+            bool WriteMsg(string const& _str);
             bool WriteNextMsg(MsgQueue _queue);
             void QueueNotification(Notification* _notification);
             void NotifyWatchers();
             inline string const& GetControllerPath();
+            inline uint8 GetControllerNodeId();
+            inline Node* GetNode(uint8 _nodeId);
+            inline Value* GetValue(ValueID const& _id);
+            uint8* GetNetworkKey();
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public:
             void SendMsg(Msg* _msg, MsgQueue _queue);
+            inline bool IsNetworkKeySet();
     };
 
     inline string const& Driver::GetControllerPath() {return m_controllerPath;}
+
+    inline uint8 Driver::GetControllerNodeId() {return m_Controller_nodeId;}
+
+    inline Node* Driver::GetNode(uint8 _nodeId)
+    {
+        Node* node = m_nodes[_nodeId];
+
+        if (m_nodeMutex->IsSignalled())
+        {
+            Log::Write(OpenZWave::LogLevel_Error, _nodeId, "Driver Thread is Not Locked during Call to GetNode");
+
+            return NULL;
+        }
+
+        if (node) return node;
+
+        return NULL;
+    }
+
+    inline Value* Driver::GetValue(ValueID const& _id) {Node* node = m_nodes[_id.GetNodeId()]; return node ? node->GetValueOverridden(_id ) : NULL;}
+
+    inline bool Driver::IsNetworkKeySet()
+    {
+        string networkKey;
+
+        if (!Options::Get()->GetOptionAsString("NetworkKey", &networkKey)) return FALSE;
+        else return networkKey.length() <= 0 ? FALSE : TRUE;
+    }
 }
 
 #endif // DRIVER_H_INCLUDED

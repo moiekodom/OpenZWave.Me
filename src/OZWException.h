@@ -1,9 +1,11 @@
 #ifndef OZWEXCEPTION_H_INCLUDED
 #define OZWEXCEPTION_H_INCLUDED
 
-#include <ZErrors.h>
-
+// Необходимо прежде включить typedef для __socklen_t, иначе при компиляции под Windows (MinGW) ошибка: "тип не определён".
 #include "Defs.h"
+
+// Здесь включается <bits/socket.h>, в котором есть "typedef __socklen_t socklen_t".
+#include <ZErrors.h>
 
 namespace OpenZWaveMe
 {

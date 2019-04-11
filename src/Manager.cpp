@@ -2,6 +2,8 @@
 
 namespace OpenZWaveMe
 {
+    Manager* Manager::s_instance = NULL;
+
     Manager::Manager()
     {
         s_instance = this;
@@ -16,7 +18,7 @@ namespace OpenZWaveMe
     }
     //----------------------------------------------------------------------------------------------------
 
-    Manager const* Manager::Create()
+    Manager* Manager::Create()
     {
         if (Options::Get() && Options::Get()->AreLocked())
         {

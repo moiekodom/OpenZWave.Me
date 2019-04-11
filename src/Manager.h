@@ -46,9 +46,9 @@ namespace OpenZWaveMe
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public:
-            static Manager const* Create();
+            static Manager* Create();
             static void Destroy();
-            inline static Manager* Get();
+            static Manager* Get() {return s_instance;}
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -56,8 +56,6 @@ namespace OpenZWaveMe
             bool RemoveDriver(string const& _controllerPath);
             bool AddWatcher(pfnOnNotification_t _watcher, void* _context);
     };
-
-    inline Manager* Manager::Get() {return s_instance;}
 }
 
 #endif // MANAGER_H_INCLUDED
