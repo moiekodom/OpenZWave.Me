@@ -33,7 +33,7 @@ namespace OpenZWaveMe
         Options::Get()->GetOptionAsBool("IntervalBetweenPolls", &m_bIntervalBetweenPolls);
 
         // Create the message queue events
-        for (int32 i = 0; i < OpenZWave::Driver::MsgQueue_Count; ++i)
+        for (int32 i = 0; i < MsgQueue::MsgQueue_Count; ++i)
         {
             m_queueEvent[i] = new Event();
         }
@@ -101,21 +101,21 @@ namespace OpenZWaveMe
         {
             if (Init(attempts))
             {
-                waitObjects[0]  = _exitEvent;				                            // Thread must exit.
-                waitObjects[1]  = m_notificationsEvent;			                        // Notifications waiting to be sent.
-                waitObjects[2]  = m_controller;				                            // Controller has received data.
-                waitObjects[3]  = m_queueEvent[OpenZWave::Driver::MsgQueue_Command];	// A controller command is in progress.
-                waitObjects[4]  = m_queueEvent[OpenZWave::Driver::MsgQueue_Security];	// Security Related Commands (As they have a timeout)
-                waitObjects[5]  = m_queueEvent[OpenZWave::Driver::MsgQueue_NoOp];		// Send device probes and diagnostics messages
-                waitObjects[6]  = m_queueEvent[OpenZWave::Driver::MsgQueue_Controller];	// A multi-part controller command is in progress
-                waitObjects[7]  = m_queueEvent[OpenZWave::Driver::MsgQueue_WakeUp];		// A node has woken. Pending messages should be sent.
-                waitObjects[8]  = m_queueEvent[OpenZWave::Driver::MsgQueue_Send];		// Ordinary requests to be sent.
-                waitObjects[9]  = m_queueEvent[OpenZWave::Driver::MsgQueue_Query];		// Node queries are pending.
-                waitObjects[10] = m_queueEvent[OpenZWave::Driver::MsgQueue_Poll];		// Poll request is waiting.
+                waitObjects[0]  = _exitEvent;				                    // Thread must exit.
+                waitObjects[1]  = m_notificationsEvent;			                // Notifications waiting to be sent.
+                waitObjects[2]  = m_controller;				                    // Controller has received data.
+                waitObjects[3]  = m_queueEvent[MsgQueue::MsgQueue_Command];	    // A controller command is in progress.
+                waitObjects[4]  = m_queueEvent[MsgQueue::MsgQueue_Security];	// Security Related Commands (As they have a timeout)
+                waitObjects[5]  = m_queueEvent[MsgQueue::MsgQueue_NoOp];		// Send device probes and diagnostics messages
+                waitObjects[6]  = m_queueEvent[MsgQueue::MsgQueue_Controller];	// A multi-part controller command is in progress
+                waitObjects[7]  = m_queueEvent[MsgQueue::MsgQueue_WakeUp];		// A node has woken. Pending messages should be sent.
+                waitObjects[8]  = m_queueEvent[MsgQueue::MsgQueue_Send];		// Ordinary requests to be sent.
+                waitObjects[9]  = m_queueEvent[MsgQueue::MsgQueue_Query];		// Node queries are pending.
+                waitObjects[10] = m_queueEvent[MsgQueue::MsgQueue_Poll];		// Poll request is waiting.
 
                 while (TRUE)
                 {
-                    Log::Write(OpenZWave::LogLevel_StreamDetail, "      Top of DriverThreadProc loop." );
+                    Log::Write(LogLevel::LogLevel_StreamDetail, "      Top of DriverThreadProc loop." );
 
                     // If we're waiting for a message to complete, we can only
                     // handle incoming data, notifications and exit events.
@@ -149,10 +149,10 @@ namespace OpenZWaveMe
                             // Wait has timed out - time to resend
                             if (m_currentMsg != NULL)
                             {
-                                notification = new Notification(OpenZWave::Notification::Type_Notification);
+                                notification = new Notification(NotificationType::Type_Notification);
 
                                 notification->SetHomeAndNodeIds(m_homeId, m_currentMsg->GetTargetNodeId());
-                                notification->SetNotification(OpenZWave::Notification::Code_Timeout);
+                                notification->SetNotification(NotificationCode::Code_Timeout);
 
                                 QueueNotification(notification);
                             }
@@ -164,11 +164,9 @@ namespace OpenZWaveMe
 
                             break;
                         case 0:
-                        {
 
                             // Exit has been signalled
                             return;
-                        }
                         case 1:
 
                             // Notifications are waiting to be sent
@@ -293,7 +291,7 @@ namespace OpenZWaveMe
                 {
                     if (pollInterval < 100)
                     {
-                        Log::Write(OpenZWave::LogLevel_Info, "The pollInterval setting is only %d, which appears to be a legacy setting.  Multiplying by 1000 to convert to ms.", pollInterval);
+                        Log::Write(LogLevel::LogLevel_Info, "The pollInterval setting is only %d, which appears to be a legacy setting.  Multiplying by 1000 to convert to ms.", pollInterval);
 
                         pollInterval *= 1000;
                     }
@@ -305,7 +303,7 @@ namespace OpenZWaveMe
                     LockGuard LG(m_nodeMutex);
 
                     // Request the state of the value from the node to which it belongs
-                    if (node = GetNode(valueId.GetNodeId()))
+                    if ((node = GetNode(valueId.GetNodeId())))
                     {
                         requestState = TRUE;
 
@@ -334,9 +332,9 @@ namespace OpenZWaveMe
                                 index       = valueId.GetIndex();
                                 instance    = valueId.GetInstance();
 
-                                Log::Write(OpenZWave::LogLevel_Detail, node->m_nodeId, "Polling: %s index = %d instance = %d (poll queue has %d messages)", cc->GetCommandClassName().c_str(), index, instance, m_msgQueue[OpenZWave::Driver::MsgQueue_Poll].size());
+                                Log::Write(LogLevel::LogLevel_Detail, node->m_nodeId, "Polling: %s index = %d instance = %d (poll queue has %d messages)", cc->GetCommandClassName().c_str(), index, instance, m_msgQueue[MsgQueue::MsgQueue_Poll].size());
 
-                                cc->RequestValue(0, index, instance, OpenZWave::Driver::MsgQueue_Poll);
+                                cc->RequestValue(0, index, instance, MsgQueue::MsgQueue_Poll);
                             }
                         }
 
@@ -352,8 +350,8 @@ namespace OpenZWaveMe
                 // Wait until the library isn't actively sending messages (or in the midst of a transaction)
                 loopCount = 0;
 
-                while (!m_msgQueue[OpenZWave::Driver::MsgQueue_Poll].empty() || !m_msgQueue[OpenZWave::Driver::MsgQueue_Send].empty() ||
-                    !m_msgQueue[OpenZWave::Driver::MsgQueue_Command].empty() || !m_msgQueue[OpenZWave::Driver::MsgQueue_Query].empty() ||
+                while (!m_msgQueue[MsgQueue::MsgQueue_Poll].empty() || !m_msgQueue[MsgQueue::MsgQueue_Send].empty() ||
+                    !m_msgQueue[MsgQueue::MsgQueue_Command].empty() || !m_msgQueue[MsgQueue::MsgQueue_Query].empty() ||
                     m_currentMsg != NULL)
                 {
                     i32 = Wait::Single(_exitEvent, 10);	// Test conditions every 10ms
@@ -368,7 +366,7 @@ namespace OpenZWaveMe
 
                     if (loopCount == 3000 * 10) // 300 seconds worth of delay?  Something unusual is going on.
                     {
-                        Log::Write(OpenZWave::LogLevel_Warning, "Poll queue hasn't been able to execute for 300 secs or more");
+                        Log::Write(LogLevel::LogLevel_Warning, "Poll queue hasn't been able to execute for 300 secs or more");
                         Log::QueueDump();
                     }
                 }
@@ -414,11 +412,11 @@ namespace OpenZWaveMe
         m_waitingForAck     = FALSE;
 
         // Open the controller
-        Log::Write(OpenZWave::LogLevel_Info, "  Opening controller %s", m_controllerPath.c_str());
+        Log::Write(LogLevel::LogLevel_Info, "  Opening controller %s", m_controllerPath.c_str());
 
         if (!m_controller->Open(m_controllerPath))
         {
-            Log::Write(OpenZWave::LogLevel_Warning, "WARNING: Failed to init the controller (attempt %d)", _attempts );
+            Log::Write(LogLevel::LogLevel_Warning, "WARNING: Failed to init the controller (attempt %d)", _attempts );
 
             m_initMutex->Unlock();
 
@@ -458,32 +456,32 @@ namespace OpenZWaveMe
         m_authKey           = new aes_encrypt_ctx();
         m_encryptKey        = new aes_encrypt_ctx();
 
-        Log::Write(OpenZWave::LogLevel_Info, GetControllerNodeId(), "Setting Up %s Network Key for Secure Communications", _newnode == true ? "Inclusion" : "Provided");
+        Log::Write(LogLevel::LogLevel_Info, GetControllerNodeId(), "Setting Up %s Network Key for Secure Communications", _newnode == true ? "Inclusion" : "Provided");
 
         if (!IsNetworkKeySet())
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed - Network Key Not Set");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed - Network Key Not Set");
 
             return FALSE;
         }
 
         if (aes_init() == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to Init AES Engine");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to Init AES Engine");
 
             return FALSE;
         }
 
         if (aes_encrypt_key128(_newnode == FALSE ? this->GetNetworkKey() : SecuritySchemes[0], m_encryptKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to Set Initial Network Key for Encryption");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to Set Initial Network Key for Encryption");
 
             return FALSE;
         }
 
         if (aes_encrypt_key128(_newnode == FALSE ? this->GetNetworkKey() : SecuritySchemes[0], m_authKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to Set Initial Network Key for Authentication");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to Set Initial Network Key for Authentication");
 
             return FALSE;
         }
@@ -493,14 +491,14 @@ namespace OpenZWaveMe
 
         if (aes_ecb_encrypt(EncryptPassword, tmpEncKey, 16, m_encryptKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to Generate Encrypted Network Key for Encryption");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to Generate Encrypted Network Key for Encryption");
 
             return FALSE;
         }
 
         if (aes_ecb_encrypt(AuthPassword, tmpAuthKey, 16, m_authKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to Generate Encrypted Network Key for Authentication");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to Generate Encrypted Network Key for Authentication");
 
             return FALSE;
         }
@@ -510,14 +508,14 @@ namespace OpenZWaveMe
 
         if (aes_encrypt_key128(tmpEncKey, m_encryptKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to set Encrypted Network Key for Encryption");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to set Encrypted Network Key for Encryption");
 
             return FALSE;
         }
 
         if (aes_encrypt_key128(tmpAuthKey, m_authKey) == EXIT_FAILURE)
         {
-            Log::Write(OpenZWave::LogLevel_Warning, GetControllerNodeId(), "Failed to set Encrypted Network Key for Authentication");
+            Log::Write(LogLevel::LogLevel_Warning, GetControllerNodeId(), "Failed to set Encrypted Network Key for Authentication");
 
             return FALSE;
         }
@@ -561,6 +559,51 @@ namespace OpenZWaveMe
 
     void Driver::NotifyWatchers()
     {
+        list<Notification*>::iterator nit = m_notifications.begin();
+
+        while (nit != m_notifications.end())
+        {
+            Notification* notification = m_notifications.front();
+
+            m_notifications.pop_front();
+
+            // Check the any ValueID's sent as part of the Notification are still valid
+            switch (notification->GetType())
+            {
+                case NotificationType::Type_ValueChanged:
+                case NotificationType::Type_ValueRefreshed:
+                {
+                    Value *val = GetValue(notification->GetValueID());
+
+                    if (!val)
+                    {
+                        Log::Write(LogLevel::LogLevel_Info, notification->GetNodeId(), "Dropping Notification as ValueID does not exist");
+
+                        nit = m_notifications.begin();
+
+                        delete notification;
+
+                        val->Release();
+
+                        continue;
+                    }
+
+                    break;
+                }
+                default:
+                    break;
+            }
+
+            Log::Write(LogLevel::LogLevel_Detail, notification->GetNodeId(), "Notification: %s", notification->GetAsString().c_str());
+
+            Manager::Get()->NotifyWatchers(notification);
+
+            delete notification;
+
+            nit = m_notifications.begin();
+        }
+
+        m_notificationsEvent->Reset();
     }
     //----------------------------------------------------------------------------------------------------
 
@@ -582,14 +625,14 @@ namespace OpenZWaveMe
 
             if (elems.size() != 16)
             {
-                Log::Write(OpenZWave::LogLevel_Warning, "Invalid Network Key. Does not contain 16 Bytes - Contains %d", elems.size());
-                Log::Write(OpenZWave::LogLevel_Warning, "Raw Key: %s", networkKey.c_str());
-                Log::Write(OpenZWave::LogLevel_Warning, "Parsed Key:");
+                Log::Write(LogLevel::LogLevel_Warning, "Invalid Network Key. Does not contain 16 Bytes - Contains %d", elems.size());
+                Log::Write(LogLevel::LogLevel_Warning, "Raw Key: %s", networkKey.c_str());
+                Log::Write(LogLevel::LogLevel_Warning, "Parsed Key:");
 
                 i = 0;
 
                 for (vector<string>::iterator it = elems.begin(); it != elems.end(); it++)
-                    Log::Write(OpenZWave::LogLevel_Warning, "%d) - %s", ++i, (*it).c_str());
+                    Log::Write(LogLevel::LogLevel_Warning, "%d) - %s", ++i, (*it).c_str());
 
                 //OZW_FATAL_ERROR(OZWException::OZWEXCEPTION_SECURITY_FAILED, "Failed to Read Network Key");
             }
@@ -600,7 +643,7 @@ namespace OpenZWaveMe
             {
                 if (0 == sscanf(OpenZWave::trim(*it).c_str(), "%x", &tempkey[i]))
                 {
-                    Log::Write(OpenZWave::LogLevel_Warning, "Cannot Convert Network Key Byte %s to Key", (*it).c_str());
+                    Log::Write(LogLevel::LogLevel_Warning, "Cannot Convert Network Key Byte %s to Key", (*it).c_str());
 
                     //OZW_FATAL_ERROR(OZWException::OZWEXCEPTION_SECURITY_FAILED, "Failed to Convert Network Key");
                 }

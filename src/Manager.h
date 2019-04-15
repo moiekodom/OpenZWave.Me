@@ -22,6 +22,8 @@ namespace OpenZWaveMe
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         public:
+            using ControllerInterface = Driver::ControllerInterface;
+
             using pfnOnNotification_t = void (*)(Notification* _pNotification, void* _context);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +44,7 @@ namespace OpenZWaveMe
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
             void SetDriverReady(Driver* _driver, bool _success);
+            void NotifyWatchers(Notification* _notification);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -52,7 +55,7 @@ namespace OpenZWaveMe
 
             ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-            bool AddDriver(string const& _controllerPath, Driver::ControllerInterface _interface = Driver::ControllerInterface_ZWaySerial);
+            bool AddDriver(string const& _controllerPath, ControllerInterface _interface = ControllerInterface::ControllerInterface_ZWaySerial);
             bool RemoveDriver(string const& _controllerPath);
             bool AddWatcher(pfnOnNotification_t _watcher, void* _context);
     };

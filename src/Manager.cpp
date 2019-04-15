@@ -49,6 +49,11 @@ namespace OpenZWaveMe
     }
     //----------------------------------------------------------------------------------------------------
 
+    void Manager::NotifyWatchers(Notification* _notification)
+    {
+    }
+    //----------------------------------------------------------------------------------------------------
+
     bool Manager::AddDriver(string const& _controllerPath, Driver::ControllerInterface _interface)
     {
         if (any_of(m_pendingDrivers.begin(), m_pendingDrivers.end(), [&](Driver* _driver) {return _driver->GetControllerPath() == _controllerPath;}))

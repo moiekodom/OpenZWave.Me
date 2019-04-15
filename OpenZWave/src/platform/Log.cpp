@@ -135,7 +135,7 @@ bool Log::SetLoggingClass
 	i_LogImpl *LogClass
 )
 {
-	if (!s_customLogger) 
+	if (!s_customLogger)
 		delete m_pImpl;
 	m_pImpl = LogClass;
 	s_customLogger = true;

@@ -46,6 +46,7 @@
 			<Add library="OpenZWave" />
 			<Add library="zway" />
 			<Add library="zcommons" />
+			<Add library="zs2" />
 			<Add library="xml2" />
 			<Add library="pthread" />
 			<Add library="archive" />

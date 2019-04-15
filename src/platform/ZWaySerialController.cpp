@@ -16,11 +16,11 @@ namespace OpenZWaveMe
 
     bool ZWaySerialController::Open(string const& _serialControllerName)
     {
-        m_lastError = zway_init(&m_zway, _serialControllerName.c_str(), NULL, NULL, NULL, NULL, NULL);
+        m_lastError = zway_init(&m_zway, _serialControllerName.c_str(), ZSTR("config"), ZSTR("translations"), ZSTR("ZDDX"), NULL, NULL);
 
         if (m_lastError != NoError)
         {
-            OZW_FATAL_ERROR(InvalidPort, "Failed to init ZWay");
+            OZW_FATAL_ERROR(m_lastError, "Failed to init ZWay");
 
             return FALSE;
         }

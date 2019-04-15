@@ -412,35 +412,35 @@
 1554891543 source:d:\projects\c, c++\mine\openzwave.me\src\manager.cpp
 	"Manager.h"
 
-1554914686 source:/home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/MinOZWM/main.cpp
+1555189731 source:/home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/MinOZWM/main.cpp
 	"../src/Manager.h"
 
-1554915818 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Manager.h
+1555269688 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Manager.h
 	<Options.h>
 	"Defs.h"
 	"Notification.h"
 	"Driver.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Options.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Options.h
 	<string>
 	<cstring>
 	<map>
 	"Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Defs.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Defs.h
 	<assert.h>
 	<stdio.h>
 	<string>
 	<stdint.h>
 	"OZWException.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/OZWException.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/OZWException.h
 	<stdexcept>
 	<iostream>
 	<string>
 	<sstream>
 
-1554878253 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Defs.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Defs.h
 	<assert.h>
 	<stdio.h>
 	<exception>
@@ -456,12 +456,12 @@
 	<Options.h>
 	<Utils.h>
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Log.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Log.h
 	<stdarg.h>
 	<string>
 	"Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Utils.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Utils.h
 	"platform/Mutex.h"
 	"platform/Log.h"
 	<string>
@@ -470,35 +470,36 @@
 	<sstream>
 	<vector>
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Mutex.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Mutex.h
 	"platform/Wait.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Wait.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Wait.h
 	<list>
 	"platform/Ref.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Ref.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Ref.h
 	"Defs.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Notification.h
+1555268277 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Notification.h
+	<Driver.h>
 	<Notification.h>
 	"Defs.h"
 	"value_classes/ValueID.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Notification.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Notification.h
 	"Defs.h"
 	"value_classes/ValueID.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueID.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueID.h
 	<string>
 	<assert.h>
 	"Defs.h"
 
-1554666437 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/value_classes/ValueID.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/value_classes/ValueID.h
 	<value_classes/ValueID.h>
 	"../Defs.h"
 
-1554834443 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Driver.h
+1555270883 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Driver.h
 	<platform/TimeStamp.h>
 	<platform/Event.h>
 	<platform/Mutex.h>
@@ -514,42 +515,42 @@
 	"Notification.h"
 	"Node.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/TimeStamp.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/TimeStamp.h
 	"Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Event.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Event.h
 	"platform/Wait.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Thread.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Thread.h
 	<string>
 	"Defs.h"
 	"platform/Wait.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/aescpp.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/aescpp.h
 	"aes.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/aes.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/aes.h
 	<stdlib.h>
 	"brg_types.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/brg_types.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/aes/brg_types.h
 	<limits.h>
 	<stdint.h>
 	<stddef.h>
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/Value.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/Value.h
 	<string>
 	<time.h>
 	"Defs.h"
 	"platform/Ref.h"
 	"value_classes/ValueID.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/command_classes/WakeUp.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/command_classes/WakeUp.h
 	<list>
 	"command_classes/CommandClass.h"
 	"Driver.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/command_classes/CommandClass.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/command_classes/CommandClass.h
 	<string>
 	<vector>
 	<map>
@@ -557,11 +558,11 @@
 	"Bitfield.h"
 	"Driver.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Bitfield.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Bitfield.h
 	<vector>
 	"Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Driver.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Driver.h
 	<string>
 	<map>
 	<list>
@@ -574,13 +575,13 @@
 	"platform/TimeStamp.h"
 	"aes/aescpp.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Group.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Group.h
 	<string>
 	<vector>
 	<map>
 	"Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Node.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Node.h
 	<string>
 	<vector>
 	<list>
@@ -592,24 +593,24 @@
 	"platform/TimeStamp.h"
 	"Group.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueList.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueList.h
 	<string>
 	<vector>
 	"Defs.h"
 	"value_classes/Value.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Msg.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/Msg.h
 	<cstdio>
 	<string>
 	<string.h>
 	"Defs.h"
 
-1554976734 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/platform/ZWaySerialController.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/platform/ZWaySerialController.h
 	"../Defs.h"
 	<ZWayLib.h>
 	"Controller.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZWayLib.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZWayLib.h
 	"ZErrors.h"
 	"ZLog.h"
 	"ZDefsPublic.h"
@@ -617,10 +618,10 @@
 	"CommandClassesPublic.h"
 	"ZDataExt.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZErrors.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZErrors.h
 	"ZPlatform.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZPlatform.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZPlatform.h
 	<stdio.h>
 	<stdlib.h>
 	<stdarg.h>
@@ -648,42 +649,42 @@
 	<termios.h>
 	<memory.h>
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZLog.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZLog.h
 	"ZPlatform.h"
 	"ZErrors.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDefsPublic.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDefsPublic.h
 	"ZPlatform.h"
 	"ZData.h"
 	"ZMalloc.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZData.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZData.h
 	"ZPlatform.h"
 	"ZErrors.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZMalloc.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZMalloc.h
 	<stdio.h>
 	"ZPlatform.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/FunctionClassesPublic.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/FunctionClassesPublic.h
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/CommandClassesPublic.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/CommandClassesPublic.h
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDataExt.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/include/libzway/ZDataExt.h
 	"ZPlatform.h"
 	"ZWayLib.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/platform/Controller.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/platform/Controller.h
 	<Msg.h>
 	<platform/Stream.h>
 	"../Defs.h"
 
-1553719124 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Stream.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/platform/Stream.h
 	"Defs.h"
 	"platform/Wait.h"
 	<string>
 
-1554666257 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Node.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/src/Node.h
 	<tinyxml.h>
 	<platform/TimeStamp.h>
 	<value_classes/Value.h>
@@ -694,7 +695,7 @@
 	"Defs.h"
 	"value_classes/ValueID.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/tinyxml/tinyxml.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/tinyxml/tinyxml.h
 	<ctype.h>
 	<stdio.h>
 	<stdlib.h>
@@ -705,11 +706,11 @@
 	<sstream>
 	"tinystr.h"
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/tinyxml/tinystr.h
+1554985903 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/tinyxml/tinystr.h
 	<assert.h>
 	<string.h>
 
-1553719125 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueStore.h
+1554985902 /home/dkosarev/Projects/C, C++/Mine/OpenZWave.Me/OpenZWave/src/value_classes/ValueStore.h
 	<map>
 	"Defs.h"
 	"value_classes/ValueID.h"

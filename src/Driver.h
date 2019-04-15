@@ -45,10 +45,13 @@ namespace OpenZWaveMe
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        using LogLevel          = OpenZWave::LogLevel;
         using ControllerState   = OpenZWave::Driver::ControllerState;
         using ControllerCommand = OpenZWave::Driver::ControllerCommand;
         using ControllerError   = OpenZWave::Driver::ControllerError;
         using MsgQueue          = OpenZWave::Driver::MsgQueue;
+        using NotificationType  = OpenZWave::Notification::NotificationType;
+        using NotificationCode  = OpenZWave::Notification::NotificationCode;
 
         using pfnControllerCallback_t = void (*)(ControllerState _state, ControllerError _err, void* context);
 
@@ -127,15 +130,15 @@ namespace OpenZWaveMe
                     {
                         if (m_command == MsgQueueCmd_SendMsg)
                         {
-                            return ((*_other.m_msg) == (*m_msg));
+                            return *_other.m_msg == *m_msg;
                         }
                         else if (m_command == MsgQueueCmd_QueryStageComplete)
                         {
-                            return ((_other.m_nodeId == m_nodeId) && (_other.m_queryStage == m_queryStage));
+                            return (_other.m_nodeId == m_nodeId) && (_other.m_queryStage == m_queryStage);
                         }
                         else if (m_command == MsgQueueCmd_Controller)
                         {
-                            return ((_other.m_cci->m_controllerCommand == m_cci->m_controllerCommand) && (_other.m_cci->m_controllerCallback == m_cci->m_controllerCallback));
+                            return (_other.m_cci->m_controllerCommand == m_cci->m_controllerCommand) && (_other.m_cci->m_controllerCallback == m_cci->m_controllerCallback);
                         }
                     }
 
@@ -222,7 +225,7 @@ namespace OpenZWaveMe
 
         if (m_nodeMutex->IsSignalled())
         {
-            Log::Write(OpenZWave::LogLevel_Error, _nodeId, "Driver Thread is Not Locked during Call to GetNode");
+            Log::Write(LogLevel::LogLevel_Error, _nodeId, "Driver Thread is Not Locked during Call to GetNode");
 
             return NULL;
         }
